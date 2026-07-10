@@ -1,0 +1,35 @@
+name: Produktions Workflow
+
+on:
+    push:
+        tags:
+            - 'v*'
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: ssh setup
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/mein_schlüssel
+                  chmod 600 ~/.ssh/mein_schlüssel
+                  for ip in ${{secrets.EC2_IPS_PROD}}; do
+                  ssh-keyscan -H $ip >> ~/.ssh/known_hosts
+                  done
+              
+            - name: install nginx on ec2
+              run: |
+                  for ip in ${{secrets.EC2_IPS_PROD}}; do
+                  ssh -i ~/.ssh/mein_schlüssel ubuntu@$ip "sudo apt update && sudo apt install nginx -y"
+                  done
+
+            - name: deploy website
+              run: |
+                for ip in ${{secrets.EC2_IPS_PROD}}; do
+                scp -i ~/.ssh/mein_schlüssel Frontend/index.html ubuntu@$ip:/home/ubuntu/index.html
+                ssh -i ~/.ssh/mein_schlüssel ubuntu@$ip "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
+                done

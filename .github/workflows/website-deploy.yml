@@ -1,0 +1,26 @@
+name: website deployment
+
+on: workflow_dispatch
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: ssh setup
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/mein_schlüssel
+                  chmod 600 ~/.ssh/mein_schlüssel
+                  ssh-keyscan -H ${{secrets.EC2_IP}} >> ~/.ssh/known_hosts
+              
+            - name: install nginx on ec2
+              run: |
+                  ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP}} "sudo apt update && sudo apt install nginx -y"
+
+            - name: deploy website
+              run: |
+                scp -i ~/.ssh/mein_schlüssel Frontend/index.html ubuntu@${{secrets.EC2_IP}}:/home/ubuntu/index.html
+                ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html"

@@ -1,0 +1,38 @@
+name: Staging Workflow
+
+on: push
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: ssh setup
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/mein_schlüssel
+                  chmod 600 ~/.ssh/mein_schlüssel
+                  ssh-keyscan -H ${{secrets.EC2_IP_STAGING}} >> ~/.ssh/known_hosts
+              
+            - name: install nginx on ec2
+              run: |
+                  ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP_STAGING}} "sudo apt update && sudo apt install nginx -y"
+
+            - name: deploy website
+              run: |
+                scp -i ~/.ssh/mein_schlüssel Frontend/index.html ubuntu@${{secrets.EC2_IP_STAGING}}:/home/ubuntu/index.html
+                ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP_STAGING}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
+
+            - name: Slack Benachrichtigung
+              if: always()
+              run: |
+                  if [ "${{ job.status }}" = "success" ]; then
+                    STATUS="✅ Erfolgreich"
+                  else
+                    STATUS="❌ Fehlgeschlagen"
+                  fi
+                  curl -X POST -H 'Content-type: application/json' \
+                    --data "{\"text\":\"${STATUS}: Staging Deploy (${{ github.repository }}, Branch ${{ github.ref_name }}, Commit ${{ github.sha }}) ausgelöst von ${{ github.actor }}\"}" \
+                    "${{ secrets.SLACK_WEBHOOK_URL }}"
