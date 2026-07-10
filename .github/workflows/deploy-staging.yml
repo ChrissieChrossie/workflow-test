@@ -28,11 +28,6 @@ jobs:
             - name: Slack Benachrichtigung
               if: always()
               run: |
-                  if [ "${{ job.status }}" = "success" ]; then
-                    STATUS="✅ Erfolgreich"
-                  else
-                    STATUS="❌ Fehlgeschlagen"
-                  fi
                   curl -X POST -H 'Content-type: application/json' \
-                    --data "{\"text\":\"${STATUS}: Staging Deploy (${{ github.repository }}, Branch ${{ github.ref_name }}, Commit ${{ github.sha }}) ausgelöst von ${{ github.actor }}\"}" \
+                    --data "{\"text\":\"Der das liest ist doof.\"}" \
                     "${{ secrets.SLACK_WEBHOOK_URL }}"
