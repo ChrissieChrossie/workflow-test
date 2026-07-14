@@ -22,8 +22,9 @@ jobs:
 
             - name: deploy website
               run: |
-                scp -i ~/.ssh/mein_schlüssel Frontend/index.html ubuntu@${{secrets.EC2_IP_STAGING}}:/home/ubuntu/index.html
-                ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP_STAGING}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
+                scp -i ~/.ssh/mein_schlüssel index.html ubuntu@${{secrets.EC2_IP_STAGING}}:/home/ubuntu/index.html
+                scp -i ~/.ssh/mein_schlüssel -r images ubuntu@${{secrets.EC2_IP_STAGING}}:/home/ubuntu/images
+                ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP_STAGING}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html && sudo cp -r /home/ubuntu/images /var/www/html/images"
 
             - name: Discord Benachrichtigung
               if: always()
