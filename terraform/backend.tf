@@ -3,6 +3,5 @@ terraform {
         bucket = "1407toffee-workflow-terra-bucket"
         key = "terraform.tfstate"
         region = "eu-central-1"
-        profile = "iam-user"
     }
 }

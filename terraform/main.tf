@@ -1,6 +1,5 @@
 provider "aws" {
   region = "eu-central-1"
-    profile = "iam-user"
 }
 
 resource "aws_instance" "erste_instanz" {
