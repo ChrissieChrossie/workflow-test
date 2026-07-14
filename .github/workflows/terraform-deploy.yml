@@ -49,9 +49,9 @@ jobs:
               run: |
                   ssh -i ~/.ssh/mein_schlüssel ubuntu@${{ steps.tf_output.outputs.public_ip }} "echo Verbindung erfolgreich"
 
-            - name: Slack Benachrichtigung
+            - name: Discord Benachrichtigung
               if: success()
               run: |
                   curl -X POST -H 'Content-type: application/json' \
-                    --data "{\"text\":\"✅ Terraform Apply erfolgreich: EC2-Instanz unter ${{ steps.tf_output.outputs.public_ip }} (${{ github.repository }}, Branch ${{ github.ref_name }}, ausgelöst von ${{ github.actor }})\"}" \
-                    "${{ secrets.SLACK_WEBHOOK_URL }}"
+                    --data "{\"content\":\"✅ Terraform Apply erfolgreich: EC2-Instanz unter ${{ steps.tf_output.outputs.public_ip }} (${{ github.repository }}, Branch ${{ github.ref_name }}, ausgelöst von ${{ github.actor }})\"}" \
+                    "${{ secrets.DISCORD_WEBHOOK }}"

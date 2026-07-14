@@ -29,9 +29,9 @@ jobs:
             - name: Terraform Destroy
               run: terraform destroy -auto-approve
 
-            - name: Slack Benachrichtigung
+            - name: Discord Benachrichtigung
               if: always()
               run: |
                   curl -X POST -H 'Content-type: application/json' \
-                    --data "{\"text\":\"🗑️ Terraform Destroy ausgeführt (${{ github.repository }}, Branch ${{ github.ref_name }}, ausgelöst von ${{ github.actor }})\"}" \
-                    "${{ secrets.SLACK_WEBHOOK_URL }}"
+                    --data "{\"content\":\"🗑️ Terraform Destroy ausgeführt (${{ github.repository }}, Branch ${{ github.ref_name }}, ausgelöst von ${{ github.actor }})\"}" \
+                    "${{ secrets.DISCORD_WEBHOOK }}"
