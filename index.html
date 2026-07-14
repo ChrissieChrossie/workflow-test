@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lebenslauf Christopher Wolter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: #e8e8e8;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* === LINKE SPALTE === */
+        .sidebar {
+            width: 320px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            flex-shrink: 0;
+        }
+
+        .profile-pic-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: white;
+        }
+
+        .sidebar h1 {
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .sidebar .subtitle {
+            text-align: center;
+            font-size: 1em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar h2::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .sidebar p {
+            font-size: 0.9em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            font-size: 0.9em;
+        }
+
+        .sidebar li {
+            margin-bottom: 6px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .sidebar li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            opacity: 0.7;
+        }
+
+        .soft-skill {
+            margin-bottom: 12px;
+        }
+
+        .soft-skill strong {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 2px;
+        }
+
+        .soft-skill span {
+            font-size: 0.8em;
+            opacity: 0.85;
+            line-height: 1.4;
+        }
+
+        /* === SKILLS GRID === */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .skill-item {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-size: 0.9em;
+        }
+
+        .skill-item strong {
+            color: #764ba2;
+        }
+
+        /* === RECHTE SPALTE === */
+        .main-content {
+            flex: 1;
+            background: white;
+            padding: 40px 35px;
+        }
+
+        .main-content section {
+            margin-bottom: 30px;
+        }
+
+        .main-content h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .main-content h2::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            border-radius: 50%;
+        }
+
+        /* === TIMELINE === */
+        .timeline {
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+
+        .timeline-entry {
+            position: relative;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+        }
+
+        .timeline-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .entry-date {
+            color: #667eea;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .entry-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1em;
+            margin-bottom: 2px;
+        }
+
+        .entry-company {
+            color: #764ba2;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .entry-description {
+            color: #555;
+            font-size: 0.9em;
+            margin-left: 0;
+            padding-left: 18px;
+        }
+
+        .entry-description li {
+            margin-bottom: 3px;
+        }
+
+        .entry-note {
+            color: #666;
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        /* === PRINT === */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .sidebar {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- LINKE SPALTE -->
+    <aside class="sidebar">
+        <div class="profile-pic-container">
+            <img src="Wolter-Christopher.png" alt="Christopher Wolter" class="profile-pic">
+        </div>
+        <h1>Christopher Wolter</h1>
+        <p class="subtitle">Junior Software Developer</p>
+
+        <!-- Kontakt -->
+        <div class="sidebar-section">
+            <h2>Kontakt</h2>
+            <div class="contact-item">📧 CWolter1@gmx.de</div>
+            <div class="contact-item">📱 +49 176 70681692</div>
+            <div class="contact-item">📍 Hamburg, Deutschland</div>
+            <div class="contact-item">
+                <img src="github.png" alt="GitHub" class="contact-icon">
+                <a href="https://github.com/ChrissieChrossie">GitHub</a>
+            </div>
+            <div class="contact-item">
+                <img src="LinkedIn.png" alt="LinkedIn" class="contact-icon">
+                <a href="https://linkedin.com/in/christopher-wolter-4a2861146/">LinkedIn</a>
+            </div>
+            <div class="contact-item">
+                <img src="xing.png" alt="Xing" class="contact-icon">
+                <a href="https://xing.com/profile/Christopher_Wolter11">Xing</a>
+            </div>
+        </div>
+
+        <!-- Über mich -->
+        <div class="sidebar-section">
+            <h2>Über mich</h2>
+            <p>
+                Engagierter Software Developer mit Fokus auf E-Commerce und PHP/Symfony. 
+                Über 2 Jahre Erfahrung in der Entwicklung und Wartung von B2B-Shopsystemen mit Shopware 6. 
+                Begeistert für sauberen Code, Performance-Optimierung und moderne Entwicklungspraktiken.
+            </p>
+        </div>
+
+        <!-- Sprachen -->
+        <div class="sidebar-section">
+            <h2>Sprachen</h2>
+            <ul>
+                <li>Deutsch – Muttersprache</li>
+                <li>Englisch – Fließend</li>
+            </ul>
+        </div>
+        <br>
+        <!-- Soft Skills -->
+        <div class="sidebar-section">
+            <h2>Soft Skills</h2>
+            <div class="soft-skill">
+                <strong>Analytisches Denken</strong>
+                <span>Analyse und Behebung komplexer Bugs durch systematisches Debugging</span>
+            </div>
+            <div class="soft-skill">
+                <strong>Lernbereitschaft</strong>
+                <span>Selbstständige Weiterbildung in Docker, Jenkins und CI/CD</span>
+            </div>
+            <div class="soft-skill">
+                <strong>Genauigkeit & Sorgfalt</strong>
+                <span>Code Reviews und Testing von Custom Plugins</span>
+            </div>
+            <div class="soft-skill">
+                <strong>Teamfähigkeit</strong>
+                <span>Pair Programming und Wissenstransfer bei komplexen Features</span>
+            </div>
+        </div>
+     <br>   
+     <br> 
+          <br>   
+     <br> 
+          <br>   
+     <br> 
+          <br>   
+               <br>   
+     <br> 
+          <br>   
+     <br> 
+          <br>   
+     <br> 
+          <br>   
+     <br> 
+     <br> 
+    </aside>
+
+    <!-- RECHTE SPALTE -->
+    <main class="main-content">
+        <!-- Ausbildung -->
+        <section>
+            <h2>Ausbildung</h2>
+            <div class="timeline">
+                <div class="timeline-entry">
+                    <div class="entry-date">Juni 2026 – heute</div>
+                    <div class="entry-title">Weiterbildung: DevOps – Prozesse &amp; Automatisierung, Cloud-Computing mit AWS</div>
+                    <div class="entry-company">Berufliche Weiterbildung</div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="entry-date">August 2021 – Juli 2023</div>
+                    <div class="entry-title">Fachinformatiker für Anwendungsentwicklung</div>
+                    <div class="entry-company">AXRO GmbH</div>
+                    <div class="entry-note">Abschlussnote: 1,9 (IHK)</div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="entry-date">September 2018 – Juli 2021</div>
+                    <div class="entry-title">Studium Lehramt Informatik & Wirtschaft</div>
+                    <div class="entry-company">Universität Bayreuth</div>
+                    <div class="entry-note">(ohne Abschluss)</div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="entry-date">September 2015 – Juli 2018</div>
+                    <div class="entry-title">Studium Lehramt Informatik & Mathematik</div>
+                    <div class="entry-company">Universität Bayreuth</div>
+                    <div class="entry-note">(ohne Abschluss)</div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="entry-date">August 2013 – August 2015</div>
+                    <div class="entry-title">Duales Studium Angewandte Informatik</div>
+                    <div class="entry-company">Werum Software Solutions / HAW Hamburg</div>
+                    <div class="entry-note">(ohne Abschluss)</div>
+                </div>
+                <div class="timeline-entry">
+                    <div class="entry-date">Juli 2012</div>
+                    <div class="entry-title">Abitur</div>
+                    <div class="entry-company">Schule Marienau</div>
+                    <div class="entry-note">Leistungskurse: Physik, Mathe, Erdkunde</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Berufserfahrung -->
+        <section>
+            <h2>Berufserfahrung</h2>
+            <div class="timeline">
+                <div class="timeline-entry">
+                    <div class="entry-date">Juli 2023 – April 2026</div>
+                    <div class="entry-title">Junior Software Developer</div>
+                    <div class="entry-company">Axro GmbH, Hamburg</div>
+                    <ul class="entry-description">
+                        <li>Entwicklung und Wartung von Shopware 6 B2B-Shop</li>
+                        <li>Implementation von Custom Plugins und API-Integrationen</li>
+                        <li>Performance-Optimierung und Datenbankdesign</li>
+                        <li>Entwicklung von Microservices in Symfony</li>
+                        <li>Projektleitung für ERP-System Migration</li>
+                    </ul>
+                </div>
+                <br><br>
+                <div class="timeline-entry">
+                    <div class="entry-date">2017 – 2021</div>
+                    <div class="entry-title">Studentische Hilfskraft</div>
+                    <div class="entry-company">BayChina, Bayreuth</div>
+                    <ul class="entry-description">
+                        <li>Auswertung von Daten</li>
+                        <li>Technischer Support</li>
+                        <li>Repräsentation auf Fachmessen</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engagement -->
+        <section>
+            <h2>Engagement</h2>
+            <div class="timeline">
+                <div class="timeline-entry">
+                    <div class="entry-date">September 2012 – Juli 2013</div>
+                    <div class="entry-title">Freiwilligendienst in Yunnan (Südwestchina)</div>
+                    <div class="entry-company">Weltwärts</div>
+                    <ul class="entry-description">
+                        <li>Spoken English unterrichtet an einer High School</li>
+                        <li>Soziale Projekte: Altkleidercontainer, Hygieneprojekte</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Konferenzen -->
+        <section>
+            <h2>Konferenzen</h2>
+            <div class="timeline">
+                <div class="timeline-entry">
+                    <div class="entry-title">Chaos Communication Congress (37C3, 38C3)</div>
+                    <div class="entry-note">Teilnahme an Security & DevOps Tracks</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technische Fähigkeiten -->
+        <section>
+            <h2>Technische Fähigkeiten</h2>
+            <div class="skills-grid">
+                <div class="skill-item"><strong>Programmiersprachen:</strong> PHP 8, Python, HTML, JS, CSS</div>
+                <div class="skill-item"><strong>Frameworks:</strong> Shopware 6.5, Symfony 7</div>
+                <div class="skill-item"><strong>Datenbanken:</strong> MySQL, PostgreSQL</div>
+                <div class="skill-item"><strong>Tools:</strong> Git, Docker, Jenkins, Scrum, Claude, Warp</div>
+                <div class="skill-item"><strong>APIs:</strong> REST, GraphQL</div>
+            </div>
+        </section>
+
+    </main>
+</div>
+</body>
+</html>

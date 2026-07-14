@@ -25,9 +25,9 @@ jobs:
                 scp -i ~/.ssh/mein_schlüssel Frontend/index.html ubuntu@${{secrets.EC2_IP_STAGING}}:/home/ubuntu/index.html
                 ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP_STAGING}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
 
-            - name: Slack Benachrichtigung
+            - name: Discord Benachrichtigung
               if: always()
               run: |
                   curl -X POST -H 'Content-type: application/json' \
-                    --data "{\"text\":\"Der das liest ist doof.\"}" \
-                    "${{ secrets.SLACK_WEBHOOK_URL }}"
+                    --data "{\"content\":\"Der das liest ist doof.\"}" \
+                    "${{ secrets.DISCORD_WEBHOOK }}"

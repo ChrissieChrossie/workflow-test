@@ -1,3 +1,5 @@
 coverage
 node_modules
 .vs
+.terraform*
+terraform.tfstate*

@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import sys
+import os
 from datetime import datetime
 import json
 
@@ -132,8 +133,8 @@ def main():
     URL = "https://tickets.events.ccc.de/39c3/secondhand/?item=&sort=price_asc"
     CHECK_INTERVAL = 60 
     
-    DISCORD_WEBHOOK ="https://discordapp.com/api/webhooks/1450019238457905236/w1NTyvir1axOcKckYUrRrVVT5Pl9cZT3wQM1jaRu83mF2sI3ZmkOk9B2EikdjPGuOwOM" 
-    
+    DISCORD_WEBHOOK = os.environ.get("DISCORD_WEBHOOK")
+
 
     if len(sys.argv) > 1 and sys.argv[1] == "--test":
         send_test_notification(DISCORD_WEBHOOK)
