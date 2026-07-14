@@ -5,5 +5,5 @@ variable "aws_instance_type" {
 
 variable "instance_count" {
   type    = number
-  default = 3
+  default = 1
 }
