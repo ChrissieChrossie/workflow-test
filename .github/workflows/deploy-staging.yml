@@ -26,9 +26,11 @@ jobs:
                 scp -i ~/.ssh/mein_schlüssel -r images ubuntu@${{secrets.EC2_IP_STAGING}}:/home/ubuntu/images
                 ssh -i ~/.ssh/mein_schlüssel ubuntu@${{secrets.EC2_IP_STAGING}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html && sudo cp -r /home/ubuntu/images /var/www/html/images"
 
-            - name: Discord Benachrichtigung
-              if: always()
+            - name: Chuck Norris Witz senden
+              if: success()
               run: |
+                  JOKE=$(curl -s https://api.chucknorris.io/jokes/random | jq -r '.value')
+                  PAYLOAD=$(jq -n --arg content "$JOKE" '{content: $content}')
                   curl -X POST -H 'Content-type: application/json' \
-                    --data "{\"content\":\"Der das liest ist doof.\"}" \
+                    --data "$PAYLOAD" \
                     "${{ secrets.DISCORD_WEBHOOK }}"
